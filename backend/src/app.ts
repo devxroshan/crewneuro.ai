@@ -1,6 +1,13 @@
 import express from 'express';
+import {configDotenv} from 'dotenv';
 import cors from 'cors';
-import dotenv from 'dotenv';
+
+
+
+configDotenv();
+
+const app = express();
+const PORT = process.env.PORT || 5000;
 
 // Configs
 import connectDB from './config/db';
@@ -9,8 +16,6 @@ import connectDB from './config/db';
 import authRoutes from './routes/auth.routes';
 import { errorHandler } from './utils/errorHandler';
 
-const app = express();
-dotenv.config();
 
 // Middlewares
 app.use(cors({
@@ -25,7 +30,6 @@ app.use(express.urlencoded({ extended: true }));
 // Connect to MongoDB
 connectDB();
 
-
 // Routes
 app.use('/api/auth', authRoutes);
 
@@ -33,8 +37,8 @@ app.use('/api/auth', authRoutes);
 // Global Error Handler
 app.use(errorHandler)
 
-app.listen(process.env.PORT || 5000, () => {
-    console.log(`Server is running on port http://localhost:${process.env.PORT || 5000}`);
+app.listen(PORT || 5000, () => {
+    console.log(`Server is running on port http://localhost:${PORT || 5000}`);
 });
 
 export default app;
